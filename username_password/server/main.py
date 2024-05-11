@@ -1,6 +1,7 @@
 import os
 import hashlib
 import binascii
+from urllib.parse import parse_qs
 
 from starlette.applications import Starlette
 from starlette.responses import PlainTextResponse
@@ -22,20 +23,15 @@ async def register(request: Request):
     # Break down body
     body = await request.body()
     body = body.decode()
-    parts = body.split("&")
-    parts = [part.partition("=") for part in parts]
+    fields = parse_qs(body)
+
+    # Body must have username and password
+    if "username" not in fields or "password" not in fields:
+        return PlainTextResponse("Missing username or password", 400)
 
     # Get username and password
-    username = ""
-    password = ""
-    for part in parts:
-        if part[0] == "username":
-            username = part[2]
-        elif part[0] == "password":
-            password = part[2]
-
-    if not username or not password:
-        return PlainTextResponse("Missing username or password", 400)
+    username = fields["username"][0]
+    password = fields["password"][0]
 
     # Found user with this username
     if database.get_user_auth(username)[0]:

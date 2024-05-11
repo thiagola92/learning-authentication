@@ -1,12 +1,13 @@
 import sys
 import httpx
+from urllib.parse import urlencode
 
 # Get username and password from command line
 username = sys.argv[1]
 password = sys.argv[2]
 
 # Setup body string
-body = f"username={username}&password={password}"
+body = urlencode({"username": username, "password": password})
 
 # Register user
 response = httpx.post(
