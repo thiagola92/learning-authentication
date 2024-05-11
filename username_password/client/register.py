@@ -9,5 +9,9 @@ password = sys.argv[2]
 body = f"username={username}&password={password}"
 
 # Register user
-response = httpx.post("http://127.0.0.1:8000/register", content=body)
+response = httpx.post(
+    "http://127.0.0.1:8000/register",
+    headers={"Content-Type": "application/x-www-form-urlencoded"},
+    content=body,
+)
 print(response.content)

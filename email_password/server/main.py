@@ -18,6 +18,10 @@ from auth import AuthBackend
 
 
 async def register(request: Request):
+    # Refuse if not in the right format
+    if request.headers.get("Content-Type") != "application/x-www-form-urlencoded":
+        return PlainTextResponse("Invalid body format", 400)
+
     # Break down body
     body = await request.body()
     body = body.decode()
