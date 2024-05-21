@@ -1,14 +1,15 @@
 import duckdb
 
 
-def setup():
-    cursor = duckdb.connect("users.db")
+conn = duckdb.connect("users.db")
 
-    cursor.execute("""
+
+def setup():
+    conn.execute("""
         CREATE SEQUENCE IF NOT EXISTS user_id_sequence START 1
     """)
 
-    cursor.execute("""
+    conn.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id      integer     primary key     default nextval('user_id_sequence'),
             user    text        not null        unique,
@@ -19,8 +20,7 @@ def setup():
 
 
 def get_user_auth(user: str) -> tuple[str, str]:
-    cursor = duckdb.connect("users.db")
-    result = cursor.execute(
+    result = conn.execute(
         "SELECT salt, hash FROM users WHERE user = $user",
         {"user": user},
     ).fetchone()
@@ -31,8 +31,7 @@ def get_user_auth(user: str) -> tuple[str, str]:
 
 
 def create_user(user: str, salt: str, hash: str) -> bool:
-    cursor = duckdb.connect("users.db")
-    cursor.execute(
+    conn.execute(
         """
         INSERT INTO users (user, salt, hash) VALUES
         ($user, $salt, $hash)

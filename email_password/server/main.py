@@ -28,12 +28,12 @@ async def register(request: Request):
     body = body.decode()
     fields = parse_qs(body)
 
-    # Body must have username and password
-    if "username" not in fields or "password" not in fields:
-        return PlainTextResponse("Missing username or password", 400)
+    # Body must have email and password
+    if "email" not in fields or "password" not in fields:
+        return PlainTextResponse("Missing email or password", 400)
 
-    # Get username and password
-    email = fields["username"][0]
+    # Get email and password
+    email = fields["email"][0]
     password = fields["password"][0]
 
     # Found user with this email

@@ -3,14 +3,15 @@ from datetime import datetime, timedelta
 import duckdb
 
 
-def setup():
-    cursor = duckdb.connect("users.db")
+conn = duckdb.connect("users.db")
 
-    cursor.execute("""
+
+def setup():
+    conn.execute("""
         CREATE SEQUENCE IF NOT EXISTS user_id_sequence START 1
     """)
 
-    cursor.execute("""
+    conn.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id      integer     primary key     default nextval('user_id_sequence'),
             email   text        not null        unique,
@@ -19,7 +20,7 @@ def setup():
         )
     """)
 
-    cursor.execute("""
+    conn.execute("""
         CREATE TABLE IF NOT EXISTS recovery_codes (
             email   text        primary key     not null,
             code    text        not null,
@@ -29,8 +30,7 @@ def setup():
 
 
 def get_user_auth(email: str) -> tuple[str, str]:
-    cursor = duckdb.connect("users.db")
-    result = cursor.execute(
+    result = conn.execute(
         "SELECT salt, hash FROM users WHERE email = $email",
         {"email": email},
     ).fetchone()
@@ -41,8 +41,7 @@ def get_user_auth(email: str) -> tuple[str, str]:
 
 
 def create_user(email: str, salt: str, hash: str) -> bool:
-    cursor = duckdb.connect("users.db")
-    cursor.execute(
+    conn.execute(
         """
         INSERT INTO users (email, salt, hash) VALUES
             ($email, $salt, $hash)
@@ -52,8 +51,7 @@ def create_user(email: str, salt: str, hash: str) -> bool:
 
 
 def create_recovery_code(email: str, code: str):
-    cursor = duckdb.connect("users.db")
-    cursor.execute(
+    conn.execute(
         """
         INSERT INTO recovery_codes (email, code, time) VALUES
             ($email, $code, current_timestamp)
@@ -65,8 +63,7 @@ def create_recovery_code(email: str, code: str):
 
 
 def is_recovery_code_valid(email: str, code: str) -> bool:
-    cursor = duckdb.connect("users.db")
-    result = cursor.execute(
+    result = conn.execute(
         """
         SELECT email, code, time, current_timestamp
         FROM recovery_codes
@@ -91,8 +88,7 @@ def is_recovery_code_valid(email: str, code: str) -> bool:
 
 
 def delete_recovery_code(email: str):
-    cursor = duckdb.connect("users.db")
-    cursor.execute(
+    conn.execute(
         """
         DELETE FROM recovery_codes WHERE email = $email
         """,
@@ -101,8 +97,7 @@ def delete_recovery_code(email: str):
 
 
 def change_account(email: str, salt: str, hash: str):
-    cursor = duckdb.connect("users.db")
-    cursor.execute(
+    conn.execute(
         """
         UPDATE users
         SET salt = $salt,
