@@ -1,6 +1,5 @@
 # learning-authentication
 Implementing the basic of multiple authorization strategies.  
-Each strategy will include at least a client & server.  
 Everything by terminal (no UI).  
 
 # strategies
@@ -14,10 +13,13 @@ Everything by terminal (no UI).
 
 # tools
 - [httpx](https://www.python-httpx.org/) to make http request
-- [DuckDB](https://duckdb.org/) as database
+- [DuckDB](https://duckdb.org/) as local database
 - [Starlette](https://www.starlette.io/) as RESTful API
 - [aiosmtpd](https://aiosmtpd.aio-libs.org/en/latest/) as email server
 
 # references
 - https://www.youtube.com/watch?v=996OiexHze0
 - https://www.youtube.com/watch?v=IThLjsDUG0g
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type
