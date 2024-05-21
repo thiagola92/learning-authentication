@@ -17,3 +17,7 @@ We will use:
 - [DuckDB](https://duckdb.org/) as database to store data
 - [Starlette](https://www.starlette.io/) as RESTful API
 - [aiosmtpd](https://aiosmtpd.aio-libs.org/en/latest/) as email server
+
+# references
+- https://www.youtube.com/watch?v=996OiexHze0
+- https://www.youtube.com/watch?v=IThLjsDUG0g
