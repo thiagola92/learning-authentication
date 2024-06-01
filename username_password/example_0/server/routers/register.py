@@ -1,19 +1,12 @@
 import os
 import hashlib
 import binascii
+
+from starlette.requests import Request
+from starlette.responses import PlainTextResponse
 from urllib.parse import parse_qs
 
-from starlette.applications import Starlette
-from starlette.responses import PlainTextResponse
-from starlette.requests import Request
-from starlette.routing import Route
-from starlette.middleware import Middleware
-from starlette.middleware.authentication import AuthenticationMiddleware
-from starlette.authentication import requires
-
 import database
-from auth import AuthBackend
-
 
 async def register(request: Request):
     # Refuse if not in the right format
@@ -47,18 +40,3 @@ async def register(request: Request):
     database.create_user(username, salt, hash)
 
     return PlainTextResponse("User created")
-
-
-# Needs to be authenticated to receive this response
-@requires("authenticated")
-async def content(request: Request):
-    return PlainTextResponse("Private content")
-
-
-database.setup()
-
-app = Starlette(
-    debug=True,
-    routes=[Route("/", content), Route("/register", register, methods=["post"])],
-    middleware=[Middleware(AuthenticationMiddleware, backend=AuthBackend())],
-)

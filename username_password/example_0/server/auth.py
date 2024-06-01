@@ -10,7 +10,7 @@ from starlette.authentication import (
 )
 from starlette.requests import HTTPConnection
 
-from database import get_user_auth
+import database
 
 
 class AuthBackend(AuthenticationBackend):
@@ -32,7 +32,7 @@ class AuthBackend(AuthenticationBackend):
         username, _, password = credentials.partition(":")
 
         # Get real hash from database
-        salt, hash = get_user_auth(username)
+        salt, hash = database.get_user_auth(username)
         if not salt or not hash:
             raise AuthenticationError("Invalid credentails")
 

@@ -1,12 +1,13 @@
 # learning-authentication
 Implementing the basic of multiple authorization strategies.  
-Everything by terminal (no UI).  
 
 # strategies
-- username password
+- [username password](./username_password/README.md)
     - Login by username and password
-- email password
+    - Access private content
+- [email password](./email_password/README.md)
     - Login by email and password
+    - Access private content
     - Recover account through recovery code
 - oauth
 - passkey

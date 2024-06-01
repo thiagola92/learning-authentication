@@ -1,6 +1,7 @@
 # Project specific
 *.db
 *.db.wal
+*.pem
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

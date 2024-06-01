@@ -1,0 +1,12 @@
+# server
+Install:  
+```
+python3 -m venv venv
+. venv/bin/activate
+pip install -r requirements.txt
+```
+
+Start:  
+```
+uvicorn --reload main:app
+```
