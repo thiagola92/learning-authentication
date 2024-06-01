@@ -1,6 +1,8 @@
 # learning-authentication
 Implementing the basic of multiple authorization strategies.  
 
+NOTE: I was organizing the repository but stopped middle way because I was tired of adding many ways of doing the same thing.
+
 # strategies
 - [username password](./username_password/README.md)
     - Login by username and password
@@ -9,8 +11,6 @@ Implementing the basic of multiple authorization strategies.
     - Login by email and password
     - Access private content
     - Recover account through recovery code
-- oauth
-- passkey
 
 # tools
 - [httpx](https://www.python-httpx.org/) to make http request
